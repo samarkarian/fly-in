@@ -43,7 +43,7 @@ def menu_zone() -> None:
     options = ["normal", "priority", "restricted", "blocked"]
     terminal_menu = TerminalMenu(options)
     menu_entry_index = terminal_menu.show()
-    print(f"You have selected {options[menu_entry_index]}!")
+    print(f"{options[menu_entry_index].capitalize()} zone selected !")
 
     return options[menu_entry_index]
 
@@ -107,7 +107,20 @@ def drone_set_up() -> tuple[Any]:
     return nb_drones, start_hub, end_hub, start_coords, end_coords
 
 
-def hub_set_up():
+def drones_max() -> int:
+
+    try:
+        max_d = int(input(
+            "Enter the maximum number of authorized drones into this hub : "
+        ))
+    except ValueError:
+        print("[Warning]: Maximum of drones value must be an integer !")
+        sys.exit(1)
+
+    return max_d
+
+
+def hub_set_up() -> tuple[Any]:
 
     hub_name = input("Choose a name for the hub: ")
     banned_area_name(hub_name)
@@ -119,8 +132,10 @@ def hub_set_up():
     coords = check_coords(coords)
 
     zone = menu_zone()
-
     color = menu_color()
+    max_drones = drones_max()
+
+    return hub_name, coords, zone, color, max_drones
 
 
 def main() -> None:
@@ -134,8 +149,14 @@ def main() -> None:
         print("[Warning]: Value must be an integer !")
         sys.exit(1)
 
+    hubs: list[HubSetUp] = []
     for _ in range(hub_nb):
-        hub_set_up()
+        hub_name, coords, zone, color, max_drones = hub_set_up()
+        hubs.append(HubSetUp(hub_name, coords, zone, color, max_drones))
+        print('--------------------------------------------------------------')
+
+    for hub in hubs:
+        print(hub.color)
 
 
 if __name__ == "__main__":
