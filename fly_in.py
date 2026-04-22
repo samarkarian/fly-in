@@ -1,5 +1,5 @@
 import sys
-from parser2 import main_parser
+from parser import main_parser
 
 
 def main() -> None:
