@@ -11,18 +11,6 @@ class StartHub:
         self.nb_drones = nb_drones
 
 
-class EndHub:
-
-    def __init__(
-            self, end_name: str,
-            end_coords: tuple[int, int],
-            color: str) -> None:
-
-        self.end_name = end_name
-        self.end_coords = end_coords
-        self.color = color
-
-
 class Hub:
 
     def __init__(
@@ -36,6 +24,18 @@ class Hub:
         self.zone = zone
         self.color = color
         self.max_drones = max_drones
+
+
+class EndHub:
+
+    def __init__(
+            self, end_name: str,
+            end_coords: tuple[int, int],
+            color: str) -> None:
+
+        self.end_name = end_name
+        self.end_coords = end_coords
+        self.color = color
 
 
 class Connection:

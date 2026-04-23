@@ -1,5 +1,6 @@
 import sys
 from parser import main_parser
+from graph import main_graph
 
 
 def main() -> None:
@@ -11,7 +12,9 @@ def main() -> None:
         sys.exit(1)
 
     fd = sys.argv[1]
-    main_parser(fd)
+
+    _, _, _, hub_connection = main_parser(fd)
+    main_graph(hub_connection)
 
 
 if __name__ == "__main__":
