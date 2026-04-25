@@ -1,6 +1,7 @@
 import sys
 from parser import main_parser
 from graph import main_graph
+from dijkstra import main_djikstra
 
 
 def main() -> None:
@@ -13,8 +14,9 @@ def main() -> None:
 
     fd = sys.argv[1]
 
-    _, _, _, hub_connection = main_parser(fd)
-    main_graph(hub_connection)
+    start, hub_class, end, hub_connection = main_parser(fd)
+    adjacency_dict = main_graph(hub_connection)
+    main_djikstra(start, hub_class, end, adjacency_dict.adjacency)
 
 
 if __name__ == "__main__":

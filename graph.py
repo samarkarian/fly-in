@@ -24,3 +24,5 @@ def main_graph(hub_connection: list[Connection]) -> Graph:
 
     for co in hub_connection:
         adjacency_dict.add_connection(co)
+
+    return adjacency_dict

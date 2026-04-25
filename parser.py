@@ -301,7 +301,9 @@ def check_link_capacity(
     return metadata
 
 
-def check_connection(connection: str, name_list: list[str]) -> tuple[str, str, dict[str, int]]:
+def check_connection(
+        connection: str,
+        name_list: list[str]) -> tuple[str, str, dict[str, int]]:
 
     metadata: dict[str, int] = {
         'max_link_capacity': 1
@@ -351,7 +353,9 @@ def parse_start_hub(
     return start, name_list
 
 
-def parse_hubs(hub: list[str], name_list: list[str]) -> tuple[list[Hub], list[str]]:
+def parse_hubs(
+        hub: list[str],
+        name_list: list[str]) -> tuple[list[Hub], list[str]]:
 
     hub = strip_prefix(hub)
     hub_class: list[Hub] = []
@@ -368,7 +372,9 @@ def parse_hubs(hub: list[str], name_list: list[str]) -> tuple[list[Hub], list[st
     return hub_class, name_list
 
 
-def parse_end_hub(end_hub: list[str], name_list: list[str]) -> tuple[EndHub, list[str]]:
+def parse_end_hub(
+        end_hub: list[str],
+        name_list: list[str]) -> tuple[EndHub, list[str]]:
 
     end_hub = strip_prefix(end_hub)
     if len(end_hub) != 1:
@@ -382,7 +388,9 @@ def parse_end_hub(end_hub: list[str], name_list: list[str]) -> tuple[EndHub, lis
     return end, name_list
 
 
-def parse_connections(connection: list[str], name_list: list[str]) -> list[Connection]:
+def parse_connections(
+        connection: list[str],
+        name_list: list[str]) -> list[Connection]:
 
     frozen_list: list[frozenset[str]] = []
     hub_connection: list[Connection] = []
