@@ -374,7 +374,8 @@ def parse_hubs(
 
 def parse_end_hub(
         end_hub: list[str],
-        name_list: list[str]) -> tuple[EndHub, list[str]]:
+        name_list: list[str],
+        nb_drones: int) -> tuple[EndHub, list[str]]:
 
     end_hub = strip_prefix(end_hub)
     if len(end_hub) != 1:
@@ -383,7 +384,7 @@ def parse_end_hub(
     name, coords, metadata = split_hub(end_hub[0])
     name_list.append(name)
     check_unique_names(name_list)
-    end = EndHub(name, coords, metadata['color'])
+    end = EndHub(name, coords, metadata['color'], nb_drones)
 
     return end, name_list
 
@@ -427,7 +428,7 @@ def main_parser(
     hub_class: list[Hub] = []
     hub_class, name_list = parse_hubs(hub, name_list)
 
-    end, name_list = parse_end_hub(end_hub, name_list)
+    end, name_list = parse_end_hub(end_hub, name_list, nb_drones)
 
     hub_connection: list[Connection] = []
     hub_connection = parse_connections(connection, name_list)

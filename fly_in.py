@@ -2,6 +2,7 @@ import sys
 from parser import main_parser
 from graph import main_graph
 from dijkstra import main_djikstra
+from simulator import main_simulator
 
 
 def main() -> None:
@@ -16,7 +17,10 @@ def main() -> None:
 
     start, hub_class, end, hub_connection = main_parser(fd)
     adjacency_dict = main_graph(hub_connection)
-    main_djikstra(start, hub_class, end, adjacency_dict.adjacency)
+    path, total_drones = main_djikstra(
+        start, hub_class, end, adjacency_dict.adjacency
+    )
+    main_simulator(path, total_drones, hub_class, adjacency_dict.adjacency)
 
 
 if __name__ == "__main__":
