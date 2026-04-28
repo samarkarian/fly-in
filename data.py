@@ -54,3 +54,23 @@ class Connection:
         self.zone_a = zone_a
         self.zone_b = zone_b
         self.max_link_capacity = max_link_capacity
+
+
+class Drone:
+
+    def __init__(
+            self, id: str,
+            pos: str,
+            path_idx: int,
+            arrived: bool,
+            in_transit: bool,
+            transit_remaining: int,
+            transit_destination: str | None) -> None:
+
+        self.id = id
+        self.pos = pos
+        self.path_idx = path_idx
+        self.arrived = arrived
+        self.in_transit = in_transit
+        self.transit_remaining = transit_remaining
+        self.transit_destination = transit_destination
