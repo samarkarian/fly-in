@@ -53,7 +53,7 @@ def check_first_line(content: list[str]) -> int:
         )
         sys.exit(1)
 
-    drones: list[str] = nb_drones.split(':')
+    drones: list[str] = nb_drones.split(':', 1)
     try:
         value = int(drones[1])
         if value <= 0:
@@ -84,11 +84,11 @@ def categorize_lines(
     for c in content:
         if c.startswith("start_hub:"):
             start_hub.append(c)
-        if c.startswith("hub:"):
+        elif c.startswith("hub:"):
             hub.append(c)
-        if c.startswith("end_hub:"):
+        elif c.startswith("end_hub:"):
             end_hub.append(c)
-        if c.startswith("connection:"):
+        elif c.startswith("connection:"):
             connection.append(c)
 
     return start_hub, hub, end_hub, connection
@@ -96,24 +96,18 @@ def categorize_lines(
 
 def strip_prefix(data: list[str]) -> list[str]:
 
-    info: list[list[str]] = []
+    result: list[str] = [d.split(':', 1)[1].strip() for d in data]
 
-    for d in data:
-        info.append(d.split(':'))
-    data.clear()
-    for i in info:
-        data.append(i[1].strip())
-
-    if data == ['']:
+    if result == ['']:
         print('[ERROR]: Expected a value after keyword but got nothing.')
         sys.exit(1)
 
-    return data
+    return result
 
 
 def check_name(name: str) -> None:
 
-    if name.find('-') != -1:
+    if '-' in name:
         print("[ERROR]: <name> must not contain '-'.")
         sys.exit(1)
 
@@ -166,30 +160,29 @@ def check_metadata(
                 )
                 sys.exit(1)
 
-            else:
-                if key == 'zone':
-                    if val not in zone_base:
+            if key == 'zone':
+                if val not in zone_base:
+                    print(
+                        "[ERROR]: Invalid value for 'zone'. "
+                        "Valid values are: 'normal', 'blocked', "
+                        "'restricted', 'priority'."
+                    )
+                    sys.exit(1)
+            elif key == 'max_drones':
+                try:
+                    int_val = int(val)
+                    if int_val < 0:
                         print(
-                            "[ERROR]: Invalid value for 'zone'. "
-                            "Valid values are: 'normal', 'blocked', "
-                            "'restricted', 'priority'."
+                            "[ERROR]: The value of 'max_drones' "
+                            "must be a positive integer."
                         )
                         sys.exit(1)
-                elif key == 'max_drones':
-                    try:
-                        int_val = int(val)
-                        if int_val < 0:
-                            print(
-                                "[ERROR]: The value of 'max_drones' "
-                                "must be a positive integer."
-                            )
-                            sys.exit(1)
-                    except ValueError as err:
-                        print(f"[ERROR]: 'max_drones': {err}")
-                        sys.exit(1)
-                    dict_base[key] = int_val
-                    continue
-                dict_base[key] = val
+                except ValueError as err:
+                    print(f"[ERROR]: 'max_drones': {err}")
+                    sys.exit(1)
+                dict_base[key] = int_val
+                continue
+            dict_base[key] = val
 
         except ValueError as err:
             print(f"[ERROR]: {err}")

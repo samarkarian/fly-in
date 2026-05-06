@@ -64,13 +64,11 @@ class Drone:
             path_idx: int,
             arrived: bool,
             in_transit: bool,
-            transit_remaining: int,
-            transit_destination: str | None) -> None:
+            path: list[str]) -> None:
 
         self.id = id
         self.pos = pos
         self.path_idx = path_idx
         self.arrived = arrived
         self.in_transit = in_transit
-        self.transit_remaining = transit_remaining
-        self.transit_destination = transit_destination
+        self.path = path
