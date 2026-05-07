@@ -12,7 +12,6 @@ class Parser:
 
     def parse(self) -> tuple[StartHub, list[Hub], EndHub, list[Connection]]:
         """Parse the file and return start hub, hubs, end hub and connections."""
-
         content = self._read_fd()
         nb_drones = self._check_first_line(content)
         self._check_keywords(content)
@@ -26,9 +25,7 @@ class Parser:
         return start, hub_class, end, hub_connection
 
     def _read_fd(self) -> list[str]:
-
         """Read the file, strip comments and blank lines, and return content lines."""
-
         content: list[str] = []
 
         try:
@@ -46,9 +43,7 @@ class Parser:
         return content
 
     def _check_keywords(self, content: list[str]) -> None:
-
         """Ensure every line starts with a recognised keyword prefix."""
-
         prefixes = [
             "nb_drones:",
             "start_hub:",
@@ -67,9 +62,7 @@ class Parser:
                 sys.exit(1)
 
     def _check_first_line(self, content: list[str]) -> int:
-
         """Validate that the first line defines nb_drones and return its value."""
-
         nb_drones: str = content[0]
 
         if not nb_drones.startswith('nb_drones:'):
@@ -121,9 +114,7 @@ class Parser:
         return start_hub, hub, end_hub, connection
 
     def _strip_prefix(self, data: list[str]) -> list[str]:
-
         """Remove the keyword prefix from each line and return the bare values."""
-
         result: list[str] = [d.split(':', 1)[1].strip() for d in data]
 
         if result == ['']:
@@ -133,9 +124,7 @@ class Parser:
         return result
 
     def _check_name(self, name: str) -> None:
-
         """Raise an error if the hub name contains a forbidden dash character."""
-
         if '-' in name:
             print("[ERROR]: <name> must not contain '-'.")
             sys.exit(1)
@@ -263,9 +252,7 @@ class Parser:
             return name, coords, dict_base
 
     def _check_unique_names(self, name_list: list[str]) -> None:
-
         """Raise an error if any name appears more than once in the list."""
-
         if len(name_list) != len(set(name_list)):
             print("[ERROR]: Each zone must have a unique name.")
             sys.exit(1)

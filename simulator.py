@@ -44,7 +44,6 @@ class Simulator:
         snapshots: list[list[tuple[str, str, bool, str]]] = []
 
         def snapshot() -> list[tuple[str, str, bool, str]]:
-
             result: list[tuple[str, str, bool, str]] = []
 
             for d in drones:

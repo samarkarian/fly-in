@@ -31,7 +31,6 @@ class Dijkstra:
 
     def run(self) -> tuple[list[list[str]], int]:
         """Compute up to nb_drones distinct paths, penalizing used nodes each iteration."""
-
         total_drones: int = self._start.max_drones
         paths: list[list[str]] = []
         penalties: dict[str, int] = {}
