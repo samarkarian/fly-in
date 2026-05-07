@@ -34,7 +34,7 @@ class Dijkstra:
         paths: list[list[str]] = []
         penalties: dict[str, int] = {}
 
-        for _ in range(2):
+        for _ in range(total_drones):
             cost: dict[str, float] = {x: float('inf') for x in self._adjacency}
             parents: dict[str, str | None] = {x: None for x in self._adjacency}
             cost[self._start.name] = 0

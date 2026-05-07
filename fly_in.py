@@ -3,6 +3,7 @@ from parser import Parser
 from graph import main_graph
 from dijkstra import Dijkstra
 from simulator import Simulator
+from visualizer import Visualizer
 
 
 def main() -> None:
@@ -19,7 +20,8 @@ def main() -> None:
     paths, total_drones = Dijkstra(
         start, hub_class, end, adjacency_dict.adjacency
     ).run()
-    Simulator(paths, total_drones, hub_class, adjacency_dict.adjacency).run()
+    turns = Simulator(paths, total_drones, hub_class, adjacency_dict.adjacency).run()
+    Visualizer(start, hub_class, end, adjacency_dict.adjacency, turns).show()
 
 
 if __name__ == "__main__":

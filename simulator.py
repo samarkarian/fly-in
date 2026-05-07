@@ -31,8 +31,7 @@ class Simulator:
         for hub in hub_class:
             self._control_zone[hub.name] = hub.zone
 
-
-    def run(self) -> None:
+    def run(self) -> list[list[tuple[str, str, bool, str]]]:
 
         drones: list[Drone] = []
 
@@ -40,6 +39,20 @@ class Simulator:
             assigned_path = self._paths[idx % len(self._paths)]
             drone = Drone(f"D{idx + 1}", self._start, 0, False, False, assigned_path)
             drones.append(drone)
+
+        snapshots: list[list[tuple[str, str, bool, str]]] = []
+
+        def snapshot() -> list[tuple[str, str, bool, str]]:
+
+            result: list[tuple[str, str, bool, str]] = []
+
+            for d in drones:
+                next_zone = d.path[d.path_idx + 1] if d.in_transit else ""
+                result.append((d.id, d.pos, d.in_transit, next_zone))
+
+            return result
+
+        snapshots.append(snapshot())
 
         tours: int = 0
         while not all(drone.arrived for drone in drones):
@@ -119,6 +132,10 @@ class Simulator:
 
             if turn_output:
                 print(" ".join(turn_output))
+
+            snapshots.append(snapshot())
             tours += 1
 
         print(tours)
+
+        return snapshots
