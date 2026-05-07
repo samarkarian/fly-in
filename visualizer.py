@@ -4,12 +4,10 @@ from matplotlib.widgets import Button
 from typing import Any
 from data import Hub, StartHub, EndHub
 
-
 DRONE_COLORS = [
     'red', 'royalblue', 'limegreen', 'gold', 'purple',
     'teal', 'orange', 'deeppink', 'brown', 'navy', 'olive', 'coral',
 ]
-
 
 HUB_COLORS: dict[Any, str] = {
     'green': '#27ae60', 'orange': '#e67e22', 'blue': '#2980b9',
@@ -19,6 +17,7 @@ HUB_COLORS: dict[Any, str] = {
 
 
 class Visualizer:
+    """Graphical step-through visualizer for the drone simulation using matplotlib."""
 
     def __init__(
             self,
@@ -44,38 +43,34 @@ class Visualizer:
         self.fig, self.ax = plt.subplots(figsize=(14, 8))
         self.fig.subplots_adjust(bottom=0.12)
 
-        ax_prev = self.fig.add_axes([0.35, 0.02, 0.12, 0.05])
-        ax_next = self.fig.add_axes([0.53, 0.02, 0.12, 0.05])
+        ax_prev = self.fig.add_axes((0.35, 0.02, 0.12, 0.05))
+        ax_next = self.fig.add_axes((0.53, 0.02, 0.12, 0.05))
         self.btn_prev = Button(ax_prev, '← Prev')
         self.btn_next = Button(ax_next, 'Next →')
         self.btn_prev.on_clicked(self.go_prev)
         self.btn_next.on_clicked(self.go_next)
 
-
     def show(self) -> None:
-
+        """Draw the initial state and open the matplotlib interactive window."""
         self.draw()
         plt.show()
 
-
     def go_prev(self, _event: Any) -> None:
-
+        """Step backward one turn when the Prev button is clicked."""
         if self.turn > 0:
             self.turn -= 1
             self.draw()
             self.fig.canvas.draw_idle()
 
-
-    def go_next(self, event: Any) -> None:
-
+    def go_next(self, _event: Any) -> None:
+        """Step forward one turn when the Next button is clicked."""
         if self.turn < len(self.turns) - 1:
             self.turn += 1
             self.draw()
             self.fig.canvas.draw_idle()
 
-
     def draw(self) -> None:
-
+        """Redraw edges, hubs, and drone positions for the current turn."""
         self.ax.clear()
         self.ax.axis('off')
 

@@ -3,6 +3,7 @@ from data import StartHub, Hub, EndHub
 
 
 class Dijkstra:
+    """Finds optimal drone paths using Dijkstra with cumulative penalties."""
 
     def __init__(
             self,
@@ -29,6 +30,7 @@ class Dijkstra:
         }
 
     def run(self) -> tuple[list[list[str]], int]:
+        """Compute up to nb_drones distinct paths, penalizing used nodes each iteration."""
 
         total_drones: int = self._start.max_drones
         paths: list[list[str]] = []
@@ -54,7 +56,7 @@ class Dijkstra:
             cost: dict[str, float],
             parents: dict[str, str | None],
             penalties: dict[str, int]) -> list[str] | None:
-
+        """Run one Dijkstra pass and return the shortest path, or None if unreachable."""
         data: list[tuple[float, str]] = []
         heapq.heappush(data, (0, self._start.name))
 

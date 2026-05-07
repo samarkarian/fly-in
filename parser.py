@@ -4,12 +4,14 @@ from data import StartHub, EndHub, Hub, Connection
 
 
 class Parser:
+    """Parses a drone network map file into typed data objects."""
 
     def __init__(self, fd: str) -> None:
+        """Initialize the Parser with the path to the input file."""
         self._fd = fd
 
-
     def parse(self) -> tuple[StartHub, list[Hub], EndHub, list[Connection]]:
+        """Parse the file and return start hub, hubs, end hub and connections."""
 
         content = self._read_fd()
         nb_drones = self._check_first_line(content)
@@ -23,8 +25,9 @@ class Parser:
 
         return start, hub_class, end, hub_connection
 
-
     def _read_fd(self) -> list[str]:
+
+        """Read the file, strip comments and blank lines, and return content lines."""
 
         content: list[str] = []
 
@@ -42,8 +45,9 @@ class Parser:
 
         return content
 
-
     def _check_keywords(self, content: list[str]) -> None:
+
+        """Ensure every line starts with a recognised keyword prefix."""
 
         prefixes = [
             "nb_drones:",
@@ -62,8 +66,9 @@ class Parser:
                 )
                 sys.exit(1)
 
-
     def _check_first_line(self, content: list[str]) -> int:
+
+        """Validate that the first line defines nb_drones and return its value."""
 
         nb_drones: str = content[0]
 
@@ -92,10 +97,11 @@ class Parser:
             sys.exit(1)
         return value
 
-
     def _categorize_lines(
             self,
             content: list[str]) -> tuple[list[str], list[str], list[str], list[str]]:
+
+        """Split content lines into four lists by their keyword prefix."""
 
         start_hub: list[str] = []
         hub: list[str] = []
@@ -114,8 +120,9 @@ class Parser:
 
         return start_hub, hub, end_hub, connection
 
-
     def _strip_prefix(self, data: list[str]) -> list[str]:
+
+        """Remove the keyword prefix from each line and return the bare values."""
 
         result: list[str] = [d.split(':', 1)[1].strip() for d in data]
 
@@ -125,17 +132,19 @@ class Parser:
 
         return result
 
-
     def _check_name(self, name: str) -> None:
+
+        """Raise an error if the hub name contains a forbidden dash character."""
 
         if '-' in name:
             print("[ERROR]: <name> must not contain '-'.")
             sys.exit(1)
 
-
     def _parse_name_coords(
             self,
             base_data_list: list[str]) -> tuple[str, tuple[int, int]]:
+
+        """Parse a three-token list into a hub name and integer coordinates."""
 
         try:
             if len(base_data_list) != 3:
@@ -154,11 +163,12 @@ class Parser:
 
         return name, coords
 
-
     def _check_metadata(
             self,
             metadata: list[str],
             dict_base: dict[str, Any]) -> dict[str, Any]:
+
+        """Validate metadata key-value pairs and update the base dict."""
 
         keys_base = ['zone', 'color', 'max_drones']
         zone_base = ['normal', 'blocked', 'restricted', 'priority']
@@ -213,10 +223,11 @@ class Parser:
 
         return dict_base
 
-
     def _split_hub(
             self,
             data: str) -> tuple[str, tuple[int, int], dict[str, Any]]:
+
+        """Split a hub definition string into name, coords and metadata dict."""
 
         dict_base: dict[str, Any] = {
             'zone': 'normal',
@@ -251,18 +262,20 @@ class Parser:
 
             return name, coords, dict_base
 
-
     def _check_unique_names(self, name_list: list[str]) -> None:
+
+        """Raise an error if any name appears more than once in the list."""
 
         if len(name_list) != len(set(name_list)):
             print("[ERROR]: Each zone must have a unique name.")
             sys.exit(1)
 
-
     def _separate_connection(
             self,
             base_connection: str,
             name_list: list[str]) -> tuple[str, str]:
+
+        """Split a connection string into its two zone names."""
 
         try:
             parts = base_connection.strip().split('-')
@@ -289,6 +302,8 @@ class Parser:
             self,
             meta_connection: str,
             metadata: dict[str, int]) -> dict[str, int]:
+
+        """Validate the max_link_capacity metadata and store it in the dict."""
 
         try:
             is_several_elem = meta_connection.split()
@@ -324,11 +339,12 @@ class Parser:
 
         return metadata
 
-
     def _check_connection(
             self,
             connection: str,
             name_list: list[str]) -> tuple[str, str, dict[str, int]]:
+
+        """Validate a full connection line and return both zones and metadata."""
 
         metadata: dict[str, int] = {'max_link_capacity': 1}
         connection = connection.removeprefix("connection:")
@@ -362,12 +378,13 @@ class Parser:
 
         return zone_a, zone_b, metadata
 
-
     def _parse_start_hub(
             self,
             start_hub: list[str],
             name_list: list[str],
             nb_drones: int) -> tuple[StartHub, list[str]]:
+
+        """Parse the start_hub lines and return a StartHub instance."""
 
         start_hub = self._strip_prefix(start_hub)
 
@@ -381,11 +398,12 @@ class Parser:
 
         return start, name_list
 
-
     def _parse_hubs(
             self,
             hub: list[str],
             name_list: list[str]) -> tuple[list[Hub], list[str]]:
+
+        """Parse all hub lines and return a list of Hub instances."""
 
         hub = self._strip_prefix(hub)
         hub_class: list[Hub] = []
@@ -402,12 +420,13 @@ class Parser:
 
         return hub_class, name_list
 
-
     def _parse_end_hub(
             self,
             end_hub: list[str],
             name_list: list[str],
             nb_drones: int) -> tuple[EndHub, list[str]]:
+
+        """Parse the end_hub lines and return an EndHub instance."""
 
         end_hub = self._strip_prefix(end_hub)
 
@@ -422,11 +441,12 @@ class Parser:
 
         return end, name_list
 
-
     def _parse_connections(
             self,
             connection: list[str],
             name_list: list[str]) -> list[Connection]:
+
+        """Parse all connection lines and return a list of Connection instances."""
 
         frozen_list: list[frozenset[str]] = []
         hub_connection: list[Connection] = []

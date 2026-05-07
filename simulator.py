@@ -2,6 +2,7 @@ from data import Hub, Drone
 
 
 class Simulator:
+    """Simulates turn-by-turn drone movement along computed paths."""
 
     def __init__(
             self,
@@ -32,7 +33,7 @@ class Simulator:
             self._control_zone[hub.name] = hub.zone
 
     def run(self) -> list[list[tuple[str, str, bool, str]]]:
-
+        """Run the simulation, print turn output, and return per-turn drone snapshots."""
         drones: list[Drone] = []
 
         for idx in range(self._total_drones):
