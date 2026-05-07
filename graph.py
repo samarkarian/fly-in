@@ -7,11 +7,12 @@ class Graph:
 
         self.adjacency = adjacency
 
-    def add_connection(self, co: Connection):
+    def add_connection(self, co: Connection) -> None:
 
         if co.zone_a not in self.adjacency:
             self.adjacency[co.zone_a] = []
         self.adjacency[co.zone_a].append((co.zone_b, co.max_link_capacity))
+
         if co.zone_b not in self.adjacency:
             self.adjacency[co.zone_b] = []
         self.adjacency[co.zone_b].append((co.zone_a, co.max_link_capacity))
