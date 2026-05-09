@@ -17,7 +17,8 @@ HUB_COLORS: dict[Any, str] = {
 
 
 class Visualizer:
-    """Graphical step-through visualizer for the drone simulation using matplotlib."""
+    """Graphical step-through visualizer for the drone
+    simulation using matplotlib."""
 
     def __init__(
             self,
@@ -51,7 +52,8 @@ class Visualizer:
         self.btn_next.on_clicked(self.go_next)
 
     def show(self) -> None:
-        """Draw the initial state and open the matplotlib interactive window."""
+        """Draw the initial state and open the matplotlib
+        interactive window."""
         self.draw()
         plt.show()
 
@@ -83,7 +85,9 @@ class Visualizer:
                 seen.add(edge)
                 x0, y0 = self.pos[zone]
                 x1, y1 = self.pos[neighbor]
-                self.ax.plot([x0, x1], [y0, y1], color='gray', linewidth=2, zorder=1)
+                self.ax.plot(
+                    [x0, x1], [y0, y1], color='gray', linewidth=2, zorder=1
+                )
                 self.ax.text(
                     (x0 + x1) / 2, (y0 + y1) / 2 + 0.1,
                     str(cap), fontsize=7, ha='center', color='gray', zorder=2,
@@ -93,9 +97,13 @@ class Visualizer:
             x, y = self.pos[name]
             color = HUB_COLORS.get(hub.color, '#ecf0f1')
             self.ax.add_patch(
-                mpatches.Circle((x, y), 0.3, color=color, ec='black', lw=1.5, zorder=3)
+                mpatches.Circle(
+                    (x, y), 0.3, color=color, ec='black', lw=1.5, zorder=3
+                )
             )
-            self.ax.text(x, y - 0.45, name, fontsize=7, ha='center', va='top', zorder=4)
+            self.ax.text(
+                x, y - 0.45, name, fontsize=7, ha='center', va='top', zorder=4
+            )
 
         for drone_id, pos, in_transit, next_zone in self.turns[self.turn]:
             if in_transit:
@@ -107,7 +115,9 @@ class Visualizer:
 
             color = DRONE_COLORS[(int(drone_id[1:]) - 1) % len(DRONE_COLORS)]
             self.ax.add_patch(
-                mpatches.Circle((dx, dy), 0.13, color=color, ec='black', lw=0.8, zorder=5)
+                mpatches.Circle(
+                    (dx, dy), 0.13, color=color, ec='black', lw=0.8, zorder=5
+                )
             )
             self.ax.text(
                 dx, dy, drone_id,

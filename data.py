@@ -5,7 +5,8 @@ class StartHub:
             self, name: str,
             coords: tuple[int, int],
             color: str, nb_drones: int) -> None:
-        """Initialize a StartHub with its name, position, color and drone count."""
+        """Initialize a StartHub with its name, position,
+        color and drone count."""
         self.name = name
         self.coords = coords
         self.color = color
@@ -38,7 +39,8 @@ class EndHub:
             coords: tuple[int, int],
             color: str,
             nb_drones: int) -> None:
-        """Initialize an EndHub with its name, position, color and drone count."""
+        """Initialize an EndHub with its name, position,
+        color and drone count."""
         self.name = name
         self.coords = coords
         self.color = color
@@ -48,13 +50,15 @@ class EndHub:
 
 
 class Connection:
-    """Represents a bidirectional connection between two hubs with a capacity."""
+    """Represents a bidirectional connection between two
+    hubs with a capacity."""
 
     def __init__(
             self,
             zone_a: str, zone_b: str,
             max_link_capacity: int) -> None:
-        """Initialize a Connection between two zones with a maximum link capacity."""
+        """Initialize a Connection between two zones
+        with a maximum link capacity."""
         self.zone_a = zone_a
         self.zone_b = zone_b
         self.max_link_capacity = max_link_capacity
@@ -70,7 +74,8 @@ class Drone:
             arrived: bool,
             in_transit: bool,
             path: list[str]) -> None:
-        """Initialize a Drone with its identifier, current state and assigned path."""
+        """Initialize a Drone with its identifier,
+        current state and assigned path."""
         self.id = id
         self.pos = pos
         self.path_idx = path_idx

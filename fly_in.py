@@ -25,7 +25,9 @@ def main() -> None:
         print("[ERROR]: No path found between start and end zones.")
         sys.exit(1)
 
-    turns = Simulator(paths, total_drones, hub_class, adjacency_dict.adjacency).run()
+    turns = Simulator(
+        paths, total_drones, hub_class, adjacency_dict.adjacency
+    ).run()
     Visualizer(start, hub_class, end, adjacency_dict.adjacency, turns).show()
 
 

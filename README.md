@@ -81,23 +81,14 @@ The simulator advances one discrete turn at a time:
 The simulation ends when every drone has reached the end hub. The total number
 of turns is printed as the final line.
 
-### Complexity
-
-| Component | Complexity |
-|-----------|-----------|
-| Dijkstra (one pass) | O((V + E) log V) |
-| Path search (k paths) | O(k · (V + E) log V) |
-| Simulation (T turns, D drones) | O(T · D) |
-
-Paths are computed once and cached; the simulator reuses them every turn.
-
 ## Visual representation
 
 The graphical interface is built with **matplotlib** and displays the hub network
 and drone positions at each simulation turn:
 
-- **Hubs** are drawn as coloured circles using the `color` attribute from the
-  map file. Restricted zones appear in red, priority zones in cyan, etc.
+- **Hubs** are drawn as coloured circles using the `color` attribute defined
+  in the map file metadata (e.g. `color=green`, `color=red`). Hubs with no
+  `color` attribute are drawn in light grey.
 - **Edges** are drawn in grey with the `max_link_capacity` value shown at the
   midpoint.
 - **Drones** appear as small coloured circles on their current hub. Drones that
@@ -132,7 +123,9 @@ D2-goal
 - Python `heapq` module — [docs.python.org](https://docs.python.org/3/library/heapq.html)
 - matplotlib documentation — [matplotlib.org](https://matplotlib.org/stable/index.html)
 - PEP 257 — Docstring Conventions — [python.org](https://peps.python.org/pep-0257/)
-- mypy documentation — [mypy.readthedocs.io](https://mypy.readthedocs.io/)
+- https://www.w3schools.com
+- https://www.geeksforgeeks.org
+- https://stackoverflow.com/questions
 
 ### AI usage
 
