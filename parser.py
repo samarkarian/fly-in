@@ -44,6 +44,9 @@ class Parser:
         except PermissionError:
             print("[ERROR]: Permission denied.")
             sys.exit(1)
+        except Exception as err:
+            print(f"[ERROR]: {err}")
+            sys.exit(1)
 
         return content
 
@@ -79,7 +82,7 @@ class Parser:
             )
             sys.exit(1)
 
-        drones: list[str] = nb_drones.split(':', 1)
+        drones: list[str] = nb_drones.split(':')
 
         try:
             value = int(drones[1])
@@ -97,6 +100,9 @@ class Parser:
             )
             sys.exit(1)
         except IndexError as err:
+            print(f"[ERROR] line {line_num}: {err}")
+            sys.exit(1)
+        except Exception as err:
             print(f"[ERROR] line {line_num}: {err}")
             sys.exit(1)
         return value
@@ -175,6 +181,9 @@ class Parser:
         except ValueError as err:
             print(f"[ERROR] line {line_num}: {err}")
             sys.exit(1)
+        except Exception as err:
+            print(f"[ERROR] line {line_num}: {err}")
+            sys.exit(1)
 
         return name, coords
 
@@ -218,9 +227,9 @@ class Parser:
                             "'restricted', 'priority'."
                         )
                         sys.exit(1)
+                    dict_base[key] = val
 
                 elif key == 'max_drones':
-
                     try:
                         int_val = int(val)
                         if int_val <= 0:
@@ -235,13 +244,18 @@ class Parser:
                             f"[ERROR] line {line_num}: 'max_drones': {err}"
                         )
                         sys.exit(1)
-
+                    except Exception as err:
+                        print(f"[ERROR] line {line_num}: {err}")
+                        sys.exit(1)
                     dict_base[key] = int_val
-                    continue
 
-                dict_base[key] = val
+                else:
+                    dict_base[key] = val
 
             except ValueError as err:
+                print(f"[ERROR] line {line_num}: {err}")
+                sys.exit(1)
+            except Exception as err:
                 print(f"[ERROR] line {line_num}: {err}")
                 sys.exit(1)
 
@@ -329,6 +343,9 @@ class Parser:
         except ValueError as err:
             print(f"[ERROR] line {line_num}: {err}")
             sys.exit(1)
+        except Exception as err:
+            print(f"[ERROR] line {line_num}: {err}")
+            sys.exit(1)
 
         return zone_a, zone_b
 
@@ -370,6 +387,9 @@ class Parser:
                 sys.exit(1)
 
         except ValueError as err:
+            print(f"[ERROR] line {line_num}: {err}")
+            sys.exit(1)
+        except Exception as err:
             print(f"[ERROR] line {line_num}: {err}")
             sys.exit(1)
 
@@ -417,6 +437,9 @@ class Parser:
                 )
 
         except IndexError as err:
+            print(f"[ERROR] line {line_num}: {err}")
+            sys.exit(1)
+        except Exception as err:
             print(f"[ERROR] line {line_num}: {err}")
             sys.exit(1)
 

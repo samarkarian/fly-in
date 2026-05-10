@@ -133,6 +133,7 @@ Claude Code was used throughout this project to:
 
 - Fix mypy type errors
 - Write README.md
+- How to use matplotlib and help for visualizer
 
 All generated code was reviewed, tested against every provided map, and
 understood before being included in the project.
