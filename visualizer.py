@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt  # type: ignore
-import matplotlib.patches as mpatches  # type: ignore
-from matplotlib.widgets import Button  # type: ignore
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from matplotlib.widgets import Button
 from typing import Any
 from data import Hub, StartHub, EndHub
 
