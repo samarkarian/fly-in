@@ -5,11 +5,19 @@ class Graph:
     """Adjacency-list graph representation of the hub network."""
 
     def __init__(self, adjacency: dict[str, list[tuple[str, int]]]) -> None:
-        """Initialize the graph with an existing adjacency dictionary."""
+        """Initialize the graph with an existing adjacency dictionary.
+
+        Args:
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
+        """
         self.adjacency = adjacency
 
     def add_connection(self, co: Connection) -> None:
-        """Add a bidirectional edge between the two zones of a connection."""
+        """Add a bidirectional edge between the two zones of a connection.
+
+        Args:
+            co (Connection): Connection object defining the two zones and capacity.
+        """
         if co.zone_a not in self.adjacency:
             self.adjacency[co.zone_a] = []
         self.adjacency[co.zone_a].append((co.zone_b, co.max_link_capacity))
@@ -20,7 +28,14 @@ class Graph:
 
 
 def main_graph(hub_connection: list[Connection]) -> Graph:
-    """Build and return a Graph from a list of Connection objects."""
+    """Build and return a Graph from a list of Connection objects.
+
+    Args:
+        hub_connection (list[Connection]): List of connections to add.
+
+    Returns:
+        Graph: Populated graph with all connections.
+    """
     adjacency: dict[str, list[tuple[str, int]]] = {}
     adjacency_dict = Graph(adjacency)
 

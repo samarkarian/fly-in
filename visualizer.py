@@ -27,7 +27,15 @@ class Visualizer:
             end: EndHub,
             adjacency: dict[str, list[tuple[str, int]]],
             turns: list[list[tuple[str, str, bool, str]]]) -> None:
+        """Initialize the Visualizer with network data and simulation snapshots.
 
+        Args:
+            start (StartHub): Starting hub.
+            hub_class (list[Hub]): All intermediate hubs.
+            end (EndHub): Destination hub.
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
+            turns (list[list[tuple[str, str, bool, str]]]): Per-turn snapshots of (id, pos, in_transit, next_zone).
+        """
         self.hub_map: dict[str, Hub | StartHub | EndHub] = {
             start.name: start, end.name: end
         }
@@ -52,20 +60,27 @@ class Visualizer:
         self.btn_next.on_clicked(self.go_next)
 
     def show(self) -> None:
-        """Draw the initial state and open the matplotlib
-        interactive window."""
+        """Draw the initial state and open the matplotlib interactive window."""
         self.draw()
         plt.show()
 
     def go_prev(self, _event: Any) -> None:
-        """Step backward one turn when the Prev button is clicked."""
+        """Step backward one turn when the Prev button is clicked.
+
+        Args:
+            _event (Any): Matplotlib click event (unused).
+        """
         if self.turn > 0:
             self.turn -= 1
             self.draw()
             self.fig.canvas.draw_idle()
 
     def go_next(self, _event: Any) -> None:
-        """Step forward one turn when the Next button is clicked."""
+        """Step forward one turn when the Next button is clicked.
+
+        Args:
+            _event (Any): Matplotlib click event (unused).
+        """
         if self.turn < len(self.turns) - 1:
             self.turn += 1
             self.draw()

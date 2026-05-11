@@ -7,12 +7,19 @@ class Parser:
     """Parses a drone network map file into typed data objects."""
 
     def __init__(self, fd: str) -> None:
-        """Initialize the Parser with the path to the input file."""
+        """Initialize the Parser with the path to the input file.
+
+        Args:
+            fd (str): Path to the input file.
+        """
         self.fd = fd
 
     def parse(self) -> tuple[StartHub, list[Hub], EndHub, list[Connection]]:
-        """Parse the file and return start hub, hubs,
-        end hub and connections."""
+        """Parse the file and return start hub, hubs, end hub and connections.
+
+        Returns:
+            tuple[StartHub, list[Hub], EndHub, list[Connection]]: Parsed network components.
+        """
         content = self.read_fd()
         nb_drones = self.check_first_line(content)
         self.check_keywords(content)
@@ -28,8 +35,11 @@ class Parser:
         return start, hub_class, end, hub_connection
 
     def read_fd(self) -> list[tuple[int, str]]:
-        """Read the file, strip comments and blank lines,
-        and return (line_num, content) pairs."""
+        """Read the file, strip comments and blank lines, and return (line_num, content) pairs.
+
+        Returns:
+            list[tuple[int, str]]: Non-empty, non-comment lines with their line numbers.
+        """
         content: list[tuple[int, str]] = []
 
         try:
@@ -51,7 +61,11 @@ class Parser:
         return content
 
     def check_keywords(self, content: list[tuple[int, str]]) -> None:
-        """Ensure every line starts with a recognised keyword prefix."""
+        """Ensure every line starts with a recognised keyword prefix.
+
+        Args:
+            content (list[tuple[int, str]]): Lines to validate.
+        """
         prefixes = [
             "nb_drones:",
             "start_hub:",
@@ -71,8 +85,14 @@ class Parser:
                 sys.exit(1)
 
     def check_first_line(self, content: list[tuple[int, str]]) -> int:
-        """Validate that the first line defines nb_drones
-        and return its value."""
+        """Validate that the first line defines nb_drones and return its value.
+
+        Args:
+            content (list[tuple[int, str]]): Full file content.
+
+        Returns:
+            int: Number of drones as a positive integer.
+        """
         line_num, nb_drones = content[0]
 
         if not nb_drones.startswith('nb_drones:'):
@@ -115,8 +135,14 @@ class Parser:
                 list[tuple[int, str]],
                 list[tuple[int, str]]]:
 
-        """Split content lines into four lists by their keyword prefix."""
+        """Split content lines into four lists by their keyword prefix.
 
+        Args:
+            content (list[tuple[int, str]]): All parsed file lines.
+
+        Returns:
+            tuple[list[tuple[int, str]], list[tuple[int, str]], list[tuple[int, str]], list[tuple[int, str]]]: start_hub, hub, end_hub, and connection lines.
+        """
         start_hub: list[tuple[int, str]] = []
         hub: list[tuple[int, str]] = []
         end_hub: list[tuple[int, str]] = []
@@ -137,8 +163,14 @@ class Parser:
     def strip_prefix(
             self,
             data: list[tuple[int, str]]) -> list[tuple[int, str]]:
-        """Remove the keyword prefix from each line
-        and return (line_num, bare_value) pairs."""
+        """Remove the keyword prefix from each line and return (line_num, bare_value) pairs.
+
+        Args:
+            data (list[tuple[int, str]]): Lines with keyword prefixes.
+
+        Returns:
+            list[tuple[int, str]]: Lines with prefix stripped.
+        """
         result: list[tuple[int, str]] = [
             (line_num, d.split(':', 1)[1].strip()) for line_num, d in data
         ]
@@ -153,8 +185,12 @@ class Parser:
         return result
 
     def check_name(self, name: str, line_num: int) -> None:
-        """Raise an error if the hub name contains
-        a forbidden dash character."""
+        """Raise an error if the hub name contains a forbidden dash character.
+
+        Args:
+            name (str): Hub name to validate.
+            line_num (int): Source line number for error reporting.
+        """
         if '-' in name:
             print(f"[ERROR] line {line_num}: <name> must not contain '-'.")
             sys.exit(1)
@@ -164,8 +200,15 @@ class Parser:
             base_data_list: list[str],
             line_num: int) -> tuple[str, tuple[int, int]]:
 
-        """Parse a three-token list into a hub name and integer coordinates."""
+        """Parse a three-token list into a hub name and integer coordinates.
 
+        Args:
+            base_data_list (list[str]): Tokens [name, x, y].
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            tuple[str, tuple[int, int]]: Hub name and (x, y) coordinates.
+        """
         try:
             if len(base_data_list) != 3:
                 print(
@@ -193,8 +236,16 @@ class Parser:
             dict_base: dict[str, Any],
             line_num: int) -> dict[str, Any]:
 
-        """Validate metadata key-value pairs and update the base dict."""
+        """Validate metadata key-value pairs and update the base dict.
 
+        Args:
+            metadata (list[str]): Raw 'key=value' strings from the metadata block.
+            dict_base (dict[str, Any]): Default values to update.
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            dict[str, Any]: Updated metadata dict.
+        """
         keys_base = ['zone', 'color', 'max_drones']
         zone_base = ['normal', 'blocked', 'restricted', 'priority']
         keys_list: list[str] = [data.split('=')[0] for data in metadata]
@@ -266,9 +317,15 @@ class Parser:
             data: str,
             line_num: int) -> tuple[str, tuple[int, int], dict[str, Any]]:
 
-        """Split a hub definition string into name,
-        coords and metadata dict."""
+        """Split a hub definition string into name, coords and metadata dict.
 
+        Args:
+            data (str): Raw hub definition string after prefix removal.
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            tuple[str, tuple[int, int], dict[str, Any]]: Name, coordinates, and metadata.
+        """
         dict_base: dict[str, Any] = {
             'zone': 'normal',
             'color': None,
@@ -305,7 +362,12 @@ class Parser:
             return name, coords, dict_base
 
     def check_unique_names(self, name_list: list[str], line_num: int) -> None:
-        """Raise an error if any name appears more than once in the list."""
+        """Raise an error if any name appears more than once in the list.
+
+        Args:
+            name_list (list[str]): Accumulated hub names to check.
+            line_num (int): Source line number for error reporting.
+        """
         if len(name_list) != len(set(name_list)):
             print(
                 f"[ERROR] line {line_num}: "
@@ -319,8 +381,16 @@ class Parser:
             name_list: list[str],
             line_num: int) -> tuple[str, str]:
 
-        """Split a connection string into its two zone names."""
+        """Split a connection string into its two zone names.
 
+        Args:
+            base_connection (str): Raw 'zoneA-zoneB' connection string.
+            name_list (list[str]): Known hub names for existence check.
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            tuple[str, str]: Names of the two connected zones.
+        """
         try:
             parts = base_connection.strip().split('-')
 
@@ -355,8 +425,16 @@ class Parser:
             metadata: dict[str, int],
             line_num: int) -> dict[str, int]:
 
-        """Validate the max_link_capacity metadata and store it in the dict."""
+        """Validate the max_link_capacity metadata and store it in the dict.
 
+        Args:
+            meta_connection (str): Raw 'max_link_capacity=N' string.
+            metadata (dict[str, int]): Metadata dict to update.
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            dict[str, int]: Updated metadata with validated capacity.
+        """
         try:
             is_several_elem = meta_connection.split()
 
@@ -403,9 +481,16 @@ class Parser:
             name_list: list[str],
             line_num: int) -> tuple[str, str, dict[str, int]]:
 
-        """Validate a full connection line and return
-        both zones and metadata."""
+        """Validate a full connection line and return both zones and metadata.
 
+        Args:
+            connection (str): Raw connection line.
+            name_list (list[str]): Known hub names for existence check.
+            line_num (int): Source line number for error reporting.
+
+        Returns:
+            tuple[str, str, dict[str, int]]: Two zone names and metadata dict.
+        """
         metadata: dict[str, int] = {'max_link_capacity': 1}
         connection = connection.removeprefix("connection:")
 
@@ -451,7 +536,16 @@ class Parser:
             name_list: list[str],
             nb_drones: int) -> tuple[StartHub, list[str]]:
 
-        """Parse the start_hub lines and return a StartHub instance."""
+        """Parse the start_hub lines and return a StartHub instance.
+
+        Args:
+            start_hub (list[tuple[int, str]]): Lines prefixed with 'start_hub:'.
+            name_list (list[str]): Accumulated name list to append to.
+            nb_drones (int): Number of drones to assign to this hub.
+
+        Returns:
+            tuple[StartHub, list[str]]: Parsed start hub and updated name list.
+        """
         start_hub = self.strip_prefix(start_hub)
 
         if len(start_hub) != 1:
@@ -470,8 +564,15 @@ class Parser:
             hub: list[tuple[int, str]],
             name_list: list[str]) -> tuple[list[Hub], list[str]]:
 
-        """Parse all hub lines and return a list of Hub instances."""
+        """Parse all hub lines and return a list of Hub instances.
 
+        Args:
+            hub (list[tuple[int, str]]): Lines prefixed with 'hub:'.
+            name_list (list[str]): Accumulated name list to append to.
+
+        Returns:
+            tuple[list[Hub], list[str]]: List of parsed hubs and updated name list.
+        """
         hub = self.strip_prefix(hub)
         hub_class: list[Hub] = []
 
@@ -493,8 +594,16 @@ class Parser:
             name_list: list[str],
             nb_drones: int) -> tuple[EndHub, list[str]]:
 
-        """Parse the end_hub lines and return an EndHub instance."""
+        """Parse the end_hub lines and return an EndHub instance.
 
+        Args:
+            end_hub (list[tuple[int, str]]): Lines prefixed with 'end_hub:'.
+            name_list (list[str]): Accumulated name list to append to.
+            nb_drones (int): Number of drones to assign to this hub.
+
+        Returns:
+            tuple[EndHub, list[str]]: Parsed end hub and updated name list.
+        """
         end_hub = self.strip_prefix(end_hub)
 
         if len(end_hub) != 1:
@@ -514,9 +623,15 @@ class Parser:
             connection: list[tuple[int, str]],
             name_list: list[str]) -> list[Connection]:
 
-        """Parse all connection lines and return
-        a list of Connection instances."""
+        """Parse all connection lines and return a list of Connection instances.
 
+        Args:
+            connection (list[tuple[int, str]]): Lines prefixed with 'connection:'.
+            name_list (list[str]): Known hub names for existence checks.
+
+        Returns:
+            list[Connection]: List of parsed connections.
+        """
         frozen_list: list[frozenset[str]] = []
         hub_connection: list[Connection] = []
 

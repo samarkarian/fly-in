@@ -10,7 +10,14 @@ class Simulator:
             total_drones: int,
             hub_class: list[Hub],
             adjacency: dict[str, list[tuple[str, int]]]) -> None:
+        """Initialize the Simulator with paths, drones, hubs, and the network graph.
 
+        Args:
+            paths (list[list[str]]): Computed drone paths from start to end.
+            total_drones (int): Total number of drones to simulate.
+            hub_class (list[Hub]): All intermediate hubs with zone metadata.
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
+        """
         self.paths = paths
         self.total_drones = total_drones
         self.start: str = paths[0][0]
@@ -33,8 +40,11 @@ class Simulator:
             self.control_zone[hub.name] = hub.zone
 
     def run(self) -> list[list[tuple[str, str, bool, str]]]:
-        """Run the simulation, print turn output,
-        and return per-turn drone snapshots."""
+        """Run the simulation, print turn output, and return per-turn drone snapshots.
+
+        Returns:
+            list[list[tuple[str, str, bool, str]]]: Per-turn snapshots of (id, pos, in_transit, next_zone).
+        """
         drones: list[Drone] = []
 
         for idx in range(self.total_drones):
@@ -47,9 +57,12 @@ class Simulator:
         snapshots: list[list[tuple[str, str, bool, str]]] = []
 
         def snapshot() -> list[tuple[str, str, bool, str]]:
-            result: list[tuple[str, str, bool, str]] = []
+            """Return current state of all drones.
 
-            """Return current state of all drones."""
+            Returns:
+                list[tuple[str, str, bool, str]]: (id, pos, in_transit, next_zone) for each drone.
+            """
+            result: list[tuple[str, str, bool, str]] = []
             for d in drones:
                 next_zone = d.path[d.path_idx + 1] if d.in_transit else ""
                 result.append((d.id, d.pos, d.in_transit, next_zone))
