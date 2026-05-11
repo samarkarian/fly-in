@@ -49,6 +49,7 @@ class Simulator:
         def snapshot() -> list[tuple[str, str, bool, str]]:
             result: list[tuple[str, str, bool, str]] = []
 
+            """Return current state of all drones."""
             for d in drones:
                 next_zone = d.path[d.path_idx + 1] if d.in_transit else ""
                 result.append((d.id, d.pos, d.in_transit, next_zone))
