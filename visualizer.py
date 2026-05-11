@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.widgets import Button
+import matplotlib.pyplot as plt  # type: ignore
+import matplotlib.patches as mpatches  # type: ignore
+from matplotlib.widgets import Button  # type: ignore
 from typing import Any
 from data import Hub, StartHub, EndHub
 
@@ -27,14 +27,17 @@ class Visualizer:
             end: EndHub,
             adjacency: dict[str, list[tuple[str, int]]],
             turns: list[list[tuple[str, str, bool, str]]]) -> None:
-        """Initialize the Visualizer with network data and simulation snapshots.
+        """Initialize the Visualizer with network data and
+        simulation snapshots.
 
         Args:
             start (StartHub): Starting hub.
             hub_class (list[Hub]): All intermediate hubs.
             end (EndHub): Destination hub.
-            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
-            turns (list[list[tuple[str, str, bool, str]]]): Per-turn snapshots of (id, pos, in_transit, next_zone).
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency
+                list mapping zone names to (neighbor, capacity) pairs.
+            turns (list[list[tuple[str, str, bool, str]]]): Per-turn
+                snapshots of (id, pos, in_transit, next_zone).
         """
         self.hub_map: dict[str, Hub | StartHub | EndHub] = {
             start.name: start, end.name: end
@@ -60,7 +63,8 @@ class Visualizer:
         self.btn_next.on_clicked(self.go_next)
 
     def show(self) -> None:
-        """Draw the initial state and open the matplotlib interactive window."""
+        """Draw the initial state and open the matplotlib
+        interactive window."""
         self.draw()
         plt.show()
 

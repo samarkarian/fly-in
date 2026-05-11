@@ -5,7 +5,8 @@ class StartHub:
             self, name: str,
             coords: tuple[int, int],
             color: str, nb_drones: int) -> None:
-        """Initialize a StartHub with its name, position, color and drone count.
+        """Initialize a StartHub with its name, position, color and
+        drone count.
 
         Args:
             name (str): Hub identifier.
@@ -77,12 +78,14 @@ class Connection:
             self,
             zone_a: str, zone_b: str,
             max_link_capacity: int) -> None:
-        """Initialize a Connection between two zones with a maximum link capacity.
+        """Initialize a Connection between two zones with a maximum
+        link capacity.
 
         Args:
             zone_a (str): Name of the first zone.
             zone_b (str): Name of the second zone.
-            max_link_capacity (int): Maximum drones allowed on this link at once.
+            max_link_capacity (int): Maximum drones allowed on this
+                link at once.
         """
         self.zone_a = zone_a
         self.zone_b = zone_b
@@ -99,14 +102,16 @@ class Drone:
             arrived: bool,
             in_transit: bool,
             path: list[str]) -> None:
-        """Initialize a Drone with its identifier, current state and assigned path.
+        """Initialize a Drone with its identifier, current state and
+        assigned path.
 
         Args:
             id (str): Unique drone identifier.
             pos (str): Current zone name.
             path_idx (int): Index of the current position in the path.
             arrived (bool): Whether the drone has reached the end hub.
-            in_transit (bool): Whether the drone is mid-link on a restricted zone.
+            in_transit (bool): Whether the drone is mid-link on a
+                restricted zone.
             path (list[str]): Ordered list of zone names to traverse.
         """
         self.id = id

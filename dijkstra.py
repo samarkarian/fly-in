@@ -17,7 +17,8 @@ class Dijkstra:
             start (StartHub): Starting hub.
             hub_class (list[Hub]): All intermediate hubs.
             end (EndHub): Destination hub.
-            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency
+                list mapping zone names to (neighbor, capacity) pairs.
         """
         self.start = start
         self.end = end
@@ -37,7 +38,8 @@ class Dijkstra:
         }
 
     def run(self) -> tuple[list[list[str]], int]:
-        """Compute up to nb_drones distinct paths, penalizing used nodes each iteration.
+        """Compute up to nb_drones distinct paths, penalizing used
+        nodes each iteration.
 
         Returns:
             tuple[list[list[str]], int]: List of paths and total drone count.
@@ -66,15 +68,19 @@ class Dijkstra:
             cost: dict[str, float],
             parents: dict[str, str | None],
             penalties: dict[str, int]) -> list[str] | None:
-        """Run one Dijkstra pass and return the shortest path, or None if unreachable.
+        """Run one Dijkstra pass and return the shortest path,
+        or None if unreachable.
 
         Args:
             cost (dict[str, float]): Initial cost map, all inf except start.
-            parents (dict[str, str | None]): Parent map for path reconstruction.
-            penalties (dict[str, int]): Extra cost per node from previous iterations.
+            parents (dict[str, str | None]): Parent map for
+                path reconstruction.
+            penalties (dict[str, int]): Extra cost per node from
+                previous iterations.
 
         Returns:
-            list[str] | None: Ordered zone names from start to end, or None if no path.
+            list[str] | None: Ordered zone names from start to end,
+                or None if no path.
         """
         if (self.start.name not in self.adjacency
                 or self.end.name not in self.adjacency):

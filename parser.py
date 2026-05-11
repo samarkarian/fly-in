@@ -18,7 +18,8 @@ class Parser:
         """Parse the file and return start hub, hubs, end hub and connections.
 
         Returns:
-            tuple[StartHub, list[Hub], EndHub, list[Connection]]: Parsed network components.
+            tuple[StartHub, list[Hub], EndHub, list[Connection]]:
+                Parsed network components.
         """
         content = self.read_fd()
         nb_drones = self.check_first_line(content)
@@ -35,10 +36,12 @@ class Parser:
         return start, hub_class, end, hub_connection
 
     def read_fd(self) -> list[tuple[int, str]]:
-        """Read the file, strip comments and blank lines, and return (line_num, content) pairs.
+        """Read the file, strip comments and blank lines, and
+        return (line_num, content) pairs.
 
         Returns:
-            list[tuple[int, str]]: Non-empty, non-comment lines with their line numbers.
+            list[tuple[int, str]]: Non-empty, non-comment lines
+                with their line numbers.
         """
         content: list[tuple[int, str]] = []
 
@@ -141,7 +144,12 @@ class Parser:
             content (list[tuple[int, str]]): All parsed file lines.
 
         Returns:
-            tuple[list[tuple[int, str]], list[tuple[int, str]], list[tuple[int, str]], list[tuple[int, str]]]: start_hub, hub, end_hub, and connection lines.
+            tuple[
+                list[tuple[int, str]],
+                list[tuple[int, str]],
+                list[tuple[int, str]],
+                list[tuple[int, str]]
+            ]: start_hub, hub, end_hub, and connection lines.
         """
         start_hub: list[tuple[int, str]] = []
         hub: list[tuple[int, str]] = []
@@ -163,7 +171,8 @@ class Parser:
     def strip_prefix(
             self,
             data: list[tuple[int, str]]) -> list[tuple[int, str]]:
-        """Remove the keyword prefix from each line and return (line_num, bare_value) pairs.
+        """Remove the keyword prefix from each line and
+        return (line_num, bare_value) pairs.
 
         Args:
             data (list[tuple[int, str]]): Lines with keyword prefixes.
@@ -239,7 +248,8 @@ class Parser:
         """Validate metadata key-value pairs and update the base dict.
 
         Args:
-            metadata (list[str]): Raw 'key=value' strings from the metadata block.
+            metadata (list[str]): Raw 'key=value' strings from
+                the metadata block.
             dict_base (dict[str, Any]): Default values to update.
             line_num (int): Source line number for error reporting.
 
@@ -324,7 +334,8 @@ class Parser:
             line_num (int): Source line number for error reporting.
 
         Returns:
-            tuple[str, tuple[int, int], dict[str, Any]]: Name, coordinates, and metadata.
+            tuple[str, tuple[int, int], dict[str, Any]]: Name,
+                coordinates, and metadata.
         """
         dict_base: dict[str, Any] = {
             'zone': 'normal',
@@ -539,7 +550,8 @@ class Parser:
         """Parse the start_hub lines and return a StartHub instance.
 
         Args:
-            start_hub (list[tuple[int, str]]): Lines prefixed with 'start_hub:'.
+            start_hub (list[tuple[int, str]]): Lines prefixed
+                with 'start_hub:'.
             name_list (list[str]): Accumulated name list to append to.
             nb_drones (int): Number of drones to assign to this hub.
 
@@ -571,7 +583,8 @@ class Parser:
             name_list (list[str]): Accumulated name list to append to.
 
         Returns:
-            tuple[list[Hub], list[str]]: List of parsed hubs and updated name list.
+            tuple[list[Hub], list[str]]: List of parsed hubs and
+                updated name list.
         """
         hub = self.strip_prefix(hub)
         hub_class: list[Hub] = []
@@ -623,10 +636,12 @@ class Parser:
             connection: list[tuple[int, str]],
             name_list: list[str]) -> list[Connection]:
 
-        """Parse all connection lines and return a list of Connection instances.
+        """Parse all connection lines and return a list of
+        Connection instances.
 
         Args:
-            connection (list[tuple[int, str]]): Lines prefixed with 'connection:'.
+            connection (list[tuple[int, str]]): Lines prefixed
+                with 'connection:'.
             name_list (list[str]): Known hub names for existence checks.
 
         Returns:

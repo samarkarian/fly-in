@@ -8,7 +8,8 @@ class Graph:
         """Initialize the graph with an existing adjacency dictionary.
 
         Args:
-            adjacency (dict[str, list[tuple[str, int]]]): Adjacency list mapping zone names to (neighbor, capacity) pairs.
+            adjacency (dict[str, list[tuple[str, int]]]): Adjacency
+                list mapping zone names to (neighbor, capacity) pairs.
         """
         self.adjacency = adjacency
 
@@ -16,7 +17,8 @@ class Graph:
         """Add a bidirectional edge between the two zones of a connection.
 
         Args:
-            co (Connection): Connection object defining the two zones and capacity.
+            co (Connection): Connection object defining the two
+                zones and capacity.
         """
         if co.zone_a not in self.adjacency:
             self.adjacency[co.zone_a] = []
