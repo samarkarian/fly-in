@@ -1,11 +1,12 @@
 install:
-	pip install matplotlib mypy flake8
+	python3 -m venv venv
+	./venv/bin/pip install matplotlib mypy flake8
 
 run:
-	python3 fly_in.py $(ARGS)
+	./venv/bin/python3 fly_in.py $(ARGS)
 
 debug:
-	python3 -m pdb fly_in.py $(ARGS)
+	./venv/bin/python3 -m pdb fly_in.py $(ARGS)
 
 clean:
 	rm -rf __pycache__ .mypy_cache
